@@ -23,6 +23,10 @@
     --shadow: 0 24px 60px rgba(15, 45, 60, 0.18);
     --radius: 18px;
     --badge-bg: rgba(255, 255, 255, 0.75);
+    --blob-1: rgba(47, 191, 164, 0.55);
+    --blob-2: rgba(26, 127, 193, 0.42);
+    --blob-3: rgba(168, 230, 213, 0.7);
+    --dots-opacity: 0.5;
 }
 
 [data-theme="dark"] {
@@ -43,6 +47,10 @@
     --star-empty: rgba(232, 243, 240, 0.25);
     --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
     --badge-bg: rgba(232, 243, 240, 0.08);
+    --blob-1: rgba(47, 191, 164, 0.22);
+    --blob-2: rgba(26, 127, 193, 0.32);
+    --blob-3: rgba(111, 227, 200, 0.16);
+    --dots-opacity: 0.65;
 }
 
 /* ---------- Base ---------- */
@@ -54,11 +62,12 @@
 
 html {
     scroll-behavior: smooth;
+    background: var(--bg);
 }
 
 body {
     font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-    background: var(--bg);
+    background: transparent;
     color: var(--ink);
     line-height: 1.6;
     padding: 86px 18px 64px;
@@ -68,6 +77,73 @@ body {
 img {
     max-width: 100%;
     display: block;
+}
+
+/* ---------- Fond animé ---------- */
+.bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    will-change: transform;
+}
+
+.bg__blob--1 {
+    width: 42vmax;
+    height: 42vmax;
+    top: -12vmax;
+    left: -10vmax;
+    background: radial-gradient(circle, var(--blob-1), transparent 70%);
+    animation: blobDrift1 26s ease-in-out infinite;
+}
+
+.bg__blob--2 {
+    width: 46vmax;
+    height: 46vmax;
+    top: 8vh;
+    right: -14vmax;
+    background: radial-gradient(circle, var(--blob-2), transparent 70%);
+    animation: blobDrift2 32s ease-in-out infinite;
+}
+
+.bg__blob--3 {
+    width: 38vmax;
+    height: 38vmax;
+    bottom: -16vmax;
+    left: 18vw;
+    background: radial-gradient(circle, var(--blob-3), transparent 70%);
+    animation: blobDrift3 38s ease-in-out infinite;
+}
+
+@keyframes blobDrift1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(6vw, 5vh, 0) scale(1.15); }
+}
+
+@keyframes blobDrift2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
+    50%      { transform: translate3d(-7vw, -5vh, 0) scale(0.92); }
+}
+
+@keyframes blobDrift3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+    50%      { transform: translate3d(5vw, -6vh, 0) scale(1.2); }
+}
+
+/* Réseau de particules dessiné en JavaScript */
+.bg__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: var(--dots-opacity);
 }
 
 /* ---------- Barre de progression ---------- */
@@ -142,6 +218,7 @@ img {
 /* ---------- Structure du CV ---------- */
 .cv {
     position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 300px 1fr;
     max-width: 1020px;
@@ -546,6 +623,7 @@ img {
         background: #fff;
     }
 
+    .bg,
     .progress,
     .controls,
     .to-top,

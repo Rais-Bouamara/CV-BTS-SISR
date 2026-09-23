@@ -110,6 +110,14 @@
     var currentLang = DEFAULT_LANG;
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // Fond animé
+    var bgCanvas = document.getElementById("bgCanvas");
+    var bgCtx = bgCanvas ? bgCanvas.getContext("2d") : null;
+    var bgParticles = [];
+    var bgFrame = null;
+    var bgColor = "26, 127, 193";
+    var LINK_DISTANCE = 130;
+
     // Retourne la traduction demandée, avec repli sur le français
     function t(key) {
         var dictionary = I18N[currentLang] || I18N[DEFAULT_LANG];
@@ -183,6 +191,7 @@
     function applyTheme(theme) {
         root.setAttribute("data-theme", theme);
         updateThemeLabel();
+        updateBgColor();
     }
 
     var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -321,7 +330,117 @@
         year.textContent = new Date().getFullYear();
     }
 
+    /* ---------- Fond animé : réseau de particules ---------- */
+    function updateBgColor() {
+        bgColor = root.getAttribute("data-theme") === "dark" ? "111, 227, 200" : "26, 127, 193";
+    }
+
+    function resizeCanvas() {
+        var ratio = Math.min(window.devicePixelRatio || 1, 2);
+        bgCanvas.width = window.innerWidth * ratio;
+        bgCanvas.height = window.innerHeight * ratio;
+        bgCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+
+    function seedParticles() {
+        var count = window.innerWidth < 760 ? 20 : 44;
+        bgParticles = [];
+
+        for (var i = 0; i < count; i++) {
+            bgParticles.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                vx: (Math.random() - 0.5) * 0.26,
+                vy: (Math.random() - 0.5) * 0.26,
+                r: Math.random() * 1.6 + 1
+            });
+        }
+    }
+
+    function drawParticles() {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        bgCtx.clearRect(0, 0, width, height);
+
+        // Déplacement, avec sortie/entrée par les bords opposés
+        bgParticles.forEach(function (dot) {
+            dot.x += dot.vx;
+            dot.y += dot.vy;
+
+            if (dot.x < -20) { dot.x = width + 20; }
+            if (dot.x > width + 20) { dot.x = -20; }
+            if (dot.y < -20) { dot.y = height + 20; }
+            if (dot.y > height + 20) { dot.y = -20; }
+        });
+
+        // Liaisons entre particules proches
+        for (var i = 0; i < bgParticles.length; i++) {
+            for (var j = i + 1; j < bgParticles.length; j++) {
+                var dx = bgParticles[i].x - bgParticles[j].x;
+                var dy = bgParticles[i].y - bgParticles[j].y;
+                var distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < LINK_DISTANCE) {
+                    bgCtx.strokeStyle = "rgba(" + bgColor + ", " + (0.18 * (1 - distance / LINK_DISTANCE)).toFixed(3) + ")";
+                    bgCtx.lineWidth = 1;
+                    bgCtx.beginPath();
+                    bgCtx.moveTo(bgParticles[i].x, bgParticles[i].y);
+                    bgCtx.lineTo(bgParticles[j].x, bgParticles[j].y);
+                    bgCtx.stroke();
+                }
+            }
+        }
+
+        bgCtx.fillStyle = "rgba(" + bgColor + ", 0.45)";
+        bgParticles.forEach(function (dot) {
+            bgCtx.beginPath();
+            bgCtx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
+            bgCtx.fill();
+        });
+
+        bgFrame = window.requestAnimationFrame(drawParticles);
+    }
+
+    function startBackground() {
+        if (!bgCtx || reduceMotion) {
+            return;
+        }
+        resizeCanvas();
+        seedParticles();
+        bgFrame = window.requestAnimationFrame(drawParticles);
+    }
+
+    function stopBackground() {
+        if (bgFrame) {
+            window.cancelAnimationFrame(bgFrame);
+            bgFrame = null;
+        }
+    }
+
+    window.addEventListener("resize", function () {
+        if (!bgCtx || reduceMotion) {
+            return;
+        }
+        resizeCanvas();
+        seedParticles();
+    });
+
+    // Met l'animation en pause quand l'onglet n'est plus visible
+    document.addEventListener("visibilitychange", function () {
+        if (!bgCtx || reduceMotion) {
+            return;
+        }
+        if (document.hidden) {
+            stopBackground();
+        } else if (!bgFrame) {
+            bgFrame = window.requestAnimationFrame(drawParticles);
+        }
+    });
+
     /* ---------- Démarrage ---------- */
     applyLang(detectLang());
+    updateBgColor();
+    startBackground();
     onScroll();
 })();

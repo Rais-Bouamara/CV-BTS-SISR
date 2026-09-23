@@ -1,267 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Raïs Bouamara</title>
+    <meta name="description" content="CV de Raïs Bouamara, développeur front junior formé à l'ISTP Em-Lyon (promo LaToile) et à l'AFPA Saint-Etienne.">
+    <title>CV Raïs Bouamara - Développeur front junior</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
 
-    <header class="header">
+    <!-- Barre de progression de lecture -->
+    <div class="progress" aria-hidden="true">
+        <div class="progress__bar" id="progressBar"></div>
+    </div>
 
-        <div class="photo">
+    <!-- Commandes : langue + thème -->
+    <div class="controls">
+        <button id="langButton" class="pill lang-toggle" type="button" aria-label="Changer de langue">
+            <span class="lang-option is-active" data-lang="fr">FR</span>
+            <span class="lang-option" data-lang="en">EN</span>
+        </button>
 
-            <img src="images/photo.jpg" alt="Photo de Raïs Bouamara">
+        <button id="themeButton" class="pill" type="button" aria-label="Basculer le thème">
+            <span class="theme-toggle__icon">🌙</span>
+            <span class="theme-toggle__label">Mode sombre</span>
+        </button>
+    </div>
 
-        </div>
+    <div class="cv">
 
-        <div class="identite">
+        <!-- ---------- Colonne latérale ---------- -->
+        <aside class="sidebar">
+            <div class="sidebar__decor" aria-hidden="true"></div>
 
-            <h1>Raïs BOUAMARA</h1>
+            <section class="block">
+                <h2 class="block__title">Contact</h2>
 
-            <h2>Étudiant en BTS SIO</h2>
-
-            <p>
-                📧 anti-spam@respectermoi.com
-                📱 06 07 08 09 10
-                📍 Saint-Etienne, France
-            </p>
-
-        </div>
-
-    </header>
-    <!section profil< 
-    <section class="profil">
-
-        <h2>Profil</h2>
-
-        <p>
-            Étudiant en BTS SIO passionné par l'informatique
-            et le développement web. Curieux, motivé et intéressé
-            par la création d'applications et de sites web.
-        </p>
-
-        </section>
-        <!section formation< 
-        <section class="section">
-
-            <h2>Formation</h2>
-
-            <div>
-
-                <h3>BTS SIO</h3>
-
-                <p>2025 - 2027</p>
-
-                <p>
-                    Lycée XXXXX
-                </p>
-
-                <p>
-                    Option SLAM
-                </p>
-
-            </div>
-
-            <div>
-
-                <h3>Baccalauréat</h3>
-
-                <p>2025</p>
-
-                <p>
-                    Lycée XXXXX
-                </p>
-
-            </div>
-
+                <ul class="contact">
+                    <li>
+                        <span class="contact__label" data-i18n="contact.phone">Téléphone :</span>
+                        <span class="contact__value">07 82 65 37 54</span>
+                    </li>
+                    <li>
+                        <span class="contact__label" data-i18n="contact.email">E-Mail :</span>
+                        <span class="contact__value">rais.bouamara@gmail.com</span>
+                    </li>
+                    <li>
+                        <span class="contact__label" data-i18n="contact.address">Adresse :</span>
+                        <span class="contact__value">58 chemins des champs<br>Saint-Etienne 42000</span>
+                    </li>
+                </ul>
             </section>
-            <!section experience professionnel< 
-            <section class="section">
 
-                <h2>Expériences professionnelles</h2>
+            <section class="block">
+                <h2 class="block__title" data-i18n="side.progLang">Langages de programmation</h2>
 
-                <article>
+                <div class="badges">
+                    <span class="badge badge--html">HTML5</span>
+                    <span class="badge badge--css">CSS3</span>
+                    <span class="badge badge--js">JavaScript</span>
+                </div>
+            </section>
 
-                    <h3>Stage - Entreprise XXX</h3>
+            <section class="block">
+                <h2 class="block__title" data-i18n="side.webDev">Développement web</h2>
 
-                    <p>Mai 2026 - Juin 2026</p>
+                <div class="stars" data-stars="3" role="img" aria-label="3 sur 5">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+            </section>
 
-                    <ul>
+            <section class="block">
+                <h2 class="block__title" data-i18n="side.software">Logiciels utilisés</h2>
 
-                        <li>Création d'une page web</li>
+                <div class="badges">
+                    <span class="badge">Figma</span>
+                    <span class="badge">Excel</span>
+                    <span class="badge">GitHub</span>
+                    <span class="badge">VS Code</span>
+                    <span class="badge">Webflow</span>
+                </div>
+            </section>
 
-                        <li>Maintenance informatique</li>
+            <section class="block">
+                <h2 class="block__title" data-i18n="side.languages">Langues</h2>
 
-                        <li>Gestion de données</li>
+                <ul class="languages">
+                    <li data-i18n="lang.fr">Français : langue maternelle</li>
+                    <li data-i18n="lang.en">Anglais : anglais technique</li>
+                    <li data-i18n="lang.es">Espagnol : niveau intermédiaire</li>
+                </ul>
+            </section>
+        </aside>
 
-                    </ul>
+        <!-- ---------- Colonne principale ---------- -->
+        <main class="content">
+            <div class="content__decor" aria-hidden="true"></div>
 
+            <header class="identity">
+                <h1>Bouamara Raïs</h1>
+                <p class="identity__role">
+                    <span id="roleText"></span><span class="caret" aria-hidden="true"></span>
+                </p>
+            </header>
+
+            <section class="block block--main">
+                <h2 class="block__title" data-i18n="section.formations">Formations</h2>
+
+                <article class="entry">
+                    <div class="entry__head">
+                        <h3 data-i18n="edu.1.title">Formation sur le thème du numérique</h3>
+                        <span class="entry__date" data-i18n="edu.1.date">Début 2025</span>
+                    </div>
+                    <p class="entry__place">L'AFPA Saint-Etienne</p>
                 </article>
 
-             </section>
-             <section class="section">
+                <article class="entry">
+                    <div class="entry__head">
+                        <h3 data-i18n="edu.2.title">Formation EM-LYON Promo LaToile</h3>
+                        <span class="entry__date">2025-2026</span>
+                    </div>
+                    <p class="entry__place">ISTP Saint-Etienne</p>
+                </article>
+            </section>
 
-    <h2>Compétences</h2>
+            <section class="block block--main">
+                <h2 class="block__title" data-i18n="section.pro">Formations professionnelles</h2>
 
-    <div class="competence">
+                <article class="entry">
+                    <div class="entry__head">
+                        <h3 data-i18n="pro.1.title">Développement de sites internet</h3>
+                        <span class="entry__date">2025-2026</span>
+                    </div>
+                    <p class="entry__place">ISTP Em-Lyon LaToile Saint-Etienne</p>
+                    <ul class="entry__list">
+                        <li data-i18n="pro.1.item1">Création de structures HTML et CSS avancées</li>
+                        <li data-i18n="pro.1.item2">Respect des maquettes pour un rendu professionnel</li>
+                        <li data-i18n="pro.1.item3">Détection et correction de code non fonctionnel</li>
+                    </ul>
+                </article>
 
-        <div class="competence-info">
+                <article class="entry">
+                    <div class="entry__head">
+                        <h3 data-i18n="pro.2.title">Développement d'applications</h3>
+                        <span class="entry__date">2025-2026</span>
+                    </div>
+                    <p class="entry__place">ISTP Em-Lyon LaToile Saint-Etienne</p>
+                    <ul class="entry__list">
+                        <li data-i18n="pro.2.item1">Prise en main de Figma et des outils proposés</li>
+                        <li data-i18n="pro.2.item2">Conception d'une maquette mid-fi pour répondre à des problématiques étudiantes</li>
+                    </ul>
+                </article>
 
-            <span>HTML</span>
+                <article class="entry">
+                    <div class="entry__head">
+                        <h3 data-i18n="pro.3.title">Entretiens utilisateurs pour un BETA-TEST</h3>
+                        <span class="entry__date">2025-2026</span>
+                    </div>
+                    <p class="entry__place">ISTP Em-Lyon LaToile Saint-Etienne</p>
+                    <ul class="entry__list">
+                        <li data-i18n="pro.3.item1">Application des retours utilisateurs pour rendre fonctionnelle la maquette mid-fi en cours de développement</li>
+                    </ul>
+                </article>
+            </section>
 
-            <span>80%</span>
-
-        </div>
-
-        <div class="barre">
-
-            <div class="niveau html"></div>
-
-        </div>
-
-    </div>
-
-
-    <div class="competence">
-
-        <div class="competence-info">
-
-            <span>CSS</span>
-
-            <span>75%</span>
-
-        </div>
-
-        <div class="barre">
-
-            <div class="niveau css"></div>
-
-        </div>
-
-    </div>
-
-
-    <div class="competence">
-
-        <div class="competence-info">
-
-            <span>JavaScript</span>
-
-            <span>60%</span>
-
-        </div>
-
-        <div class="barre">
-
-            <div class="niveau javascript"></div>
-
-        </div>
+            <footer class="footer">
+                <p>© <span id="year">2026</span> Bouamara Raïs</p>
+                <button id="printButton" class="pill" type="button" data-i18n="btn.print">🖨️ Imprimer / PDF</button>
+            </footer>
+        </main>
 
     </div>
 
-
-    <div class="competence">
-
-        <div class="competence-info">
-
-            <span>SQL</span>
-
-            <span>65%</span>
-
-        </div>
-
-        <div class="barre">
-
-            <div class="niveau sql"></div>
-
-        </div>
-
-    </div>
-
-</section>
-<section class="section projets">
-
-    <h2>Projets</h2>
-
-    <article class="projet">
-
-        <h3>Création d'un site web</h3>
-
-        <p>
-            Création d'un site web responsive en HTML,
-            CSS et JavaScript.
-        </p>
-
-        <p class="technologies">
-            HTML · CSS · JavaScript
-        </p>
-
-    </article>
-
-
-    <article class="projet">
-
-        <h3>Application de gestion de tâches</h3>
-
-        <p>
-            Développement d'une application permettant
-            de créer et gérer des tâches.
-        </p>
-
-        <p class="technologies">
-            Node.js · JavaScript · Supabase
-        </p>
-
-    </article>
-
-</section>
-<section class="section">
-
-    <h2>Technologies</h2>
-
-    <div class="technologies-list">
-
-        <span>HTML</span>
-        <span>CSS</span>
-        <span>JavaScript</span>
-        <span>Node.js</span>
-        <span>SQL</span>
-        <span>Supabase</span>
-        <span>Git</span>
-        <span>GitHub</span>
-
-    </div>
-
-</section>
-<section class="section">
-
-    <h2>Centres d'intérêt</h2>
-
-    <div class="interets">
-
-        <p>🎮 Jeux vidéo</p>
-
-        <p>💻 Informatique</p>
-
-        <p>⚽ Sport</p>
-
-        <p>🎵 Musique</p>
-
-    </div>
-
-</section>
-<footer>
-
-    <button id="themeButton">
-        🌙 Mode sombre
-    </button>
-
-</footer>
+    <!-- Bouton retour en haut -->
+    <button id="topButton" class="to-top" type="button" aria-label="Revenir en haut">↑</button>
 
 </body>
 

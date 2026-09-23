@@ -1,0 +1,578 @@
+/* ============================================================
+   CV Bouamara Raïs - Feuille de style
+   Mise en page 2 colonnes, thème clair/sombre via [data-theme]
+   ============================================================ */
+
+/* ---------- Variables de thème ---------- */
+:root {
+    --bg: #eef4f2;
+    --sidebar-1: #dcefe8;
+    --sidebar-2: #cce4dc;
+    --ink: #14312e;
+    --ink-muted: #4b6f6a;
+    --content-1: #1a7fc1;
+    --content-2: #1fa3b3;
+    --content-3: #2fbfa4;
+    --content-text: #ffffff;
+    --content-muted: rgba(255, 255, 255, 0.85);
+    --content-line: rgba(255, 255, 255, 0.3);
+    --border: rgba(20, 49, 46, 0.12);
+    --accent: #1a7fc1;
+    --star-full: #1a7fc1;
+    --star-empty: rgba(20, 49, 46, 0.22);
+    --shadow: 0 24px 60px rgba(15, 45, 60, 0.18);
+    --radius: 18px;
+    --badge-bg: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="dark"] {
+    --bg: #0b1418;
+    --sidebar-1: #10201f;
+    --sidebar-2: #16302e;
+    --ink: #e8f3f0;
+    --ink-muted: #9dbdb7;
+    --content-1: #0f3f66;
+    --content-2: #11545f;
+    --content-3: #14604f;
+    --content-text: #f2fbf9;
+    --content-muted: rgba(242, 251, 249, 0.85);
+    --content-line: rgba(242, 251, 249, 0.25);
+    --border: rgba(232, 243, 240, 0.14);
+    --accent: #4fc3d9;
+    --star-full: #6fe3c8;
+    --star-empty: rgba(232, 243, 240, 0.25);
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    --badge-bg: rgba(232, 243, 240, 0.08);
+}
+
+/* ---------- Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    padding: 86px 18px 64px;
+    transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* ---------- Barre de progression ---------- */
+.progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 4px;
+    z-index: 50;
+}
+
+.progress__bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--content-1), var(--content-3));
+    transition: width 0.1s linear;
+}
+
+/* ---------- Commandes flottantes ---------- */
+.controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 60;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--badge-bg);
+    backdrop-filter: blur(8px);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(15, 45, 60, 0.14);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.35s ease;
+}
+
+.pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(15, 45, 60, 0.22);
+}
+
+.pill:active {
+    transform: translateY(0);
+}
+
+.lang-toggle {
+    gap: 7px;
+    letter-spacing: 0.5px;
+}
+
+.lang-option {
+    opacity: 0.45;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.lang-option.is-active {
+    opacity: 1;
+    color: var(--accent);
+}
+
+/* ---------- Structure du CV ---------- */
+.cv {
+    position: relative;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    max-width: 1020px;
+    margin: 0 auto;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: var(--sidebar-1);
+}
+
+/* ---------- Colonne latérale ---------- */
+.sidebar {
+    position: relative;
+    padding: 34px 26px 40px;
+    background: linear-gradient(170deg, var(--sidebar-1), var(--sidebar-2));
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    overflow: hidden;
+}
+
+/* Motif géométrique discret, comme sur la maquette d'origine */
+.sidebar__decor {
+    position: absolute;
+    inset: 0 25% 55% 0;
+    background-image: repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.6) 0 2px,
+            transparent 2px 16px);
+    opacity: 0.32;
+    -webkit-mask-image: radial-gradient(circle at 25% 25%, #000 20%, transparent 70%);
+    mask-image: radial-gradient(circle at 25% 25%, #000 20%, transparent 70%);
+    pointer-events: none;
+}
+
+.sidebar > .block {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- Colonne principale ---------- */
+.content {
+    position: relative;
+    padding: 38px 38px 30px;
+    background: linear-gradient(150deg, var(--content-1) 0%, var(--content-2) 58%, var(--content-3) 100%);
+    color: var(--content-text);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow: hidden;
+}
+
+.content__decor {
+    position: absolute;
+    right: -130px;
+    bottom: -150px;
+    width: 360px;
+    height: 360px;
+    background: repeating-linear-gradient(135deg,
+            rgba(255, 255, 255, 0.22) 0 7px,
+            transparent 7px 24px);
+    transform: rotate(45deg);
+    -webkit-mask-image: radial-gradient(circle at 82% 82%, #000 28%, transparent 68%);
+    mask-image: radial-gradient(circle at 82% 82%, #000 28%, transparent 68%);
+    pointer-events: none;
+}
+
+.content > .identity,
+.content > .block,
+.content > .footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- Titres de bloc ---------- */
+.block__title {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.content .block__title {
+    font-size: 0.95rem;
+    border-bottom-color: var(--content-line);
+    margin-bottom: 18px;
+}
+
+/* ---------- Identité ---------- */
+.identity {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--content-line);
+}
+
+.identity h1 {
+    font-size: clamp(1.7rem, 4vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+}
+
+.identity__role {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    color: var(--content-text);
+    min-height: 1.5em;
+}
+
+.caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 3px;
+    background: var(--content-text);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* ---------- Contact ---------- */
+.contact {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.contact__label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+}
+
+.contact__value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    word-break: break-word;
+}
+
+/* ---------- Badges (langages, logiciels) ---------- */
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--badge-bg);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    cursor: default;
+}
+
+.badge::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dot, var(--accent));
+}
+
+.badge:hover {
+    transform: translateY(-2px);
+}
+
+.badge--html {
+    --dot: #e34f26;
+}
+
+.badge--css {
+    --dot: #2965f1;
+}
+
+.badge--js {
+    --dot: #f0db4f;
+}
+
+/* ---------- Notation en étoiles ---------- */
+.stars {
+    display: flex;
+    gap: 4px;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.stars span {
+    color: var(--star-empty);
+    transform: scale(0.85);
+    transition: color 0.35s ease, transform 0.35s ease;
+}
+
+.stars span.is-filled {
+    color: var(--star-full);
+    transform: scale(1);
+}
+
+/* ---------- Langues ---------- */
+.languages {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: var(--ink-muted);
+}
+
+.languages li {
+    padding-left: 16px;
+    position: relative;
+}
+
+.languages li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+/* ---------- Entrées (formations) ---------- */
+.entry + .entry {
+    margin-top: 22px;
+}
+
+.entry__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.entry__head h3 {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.entry__date {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--content-muted);
+    white-space: nowrap;
+}
+
+.entry__place {
+    font-size: 0.88rem;
+    color: var(--content-muted);
+    margin-top: 2px;
+}
+
+.entry__list {
+    margin: 10px 0 0 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.88rem;
+    color: var(--content-muted);
+}
+
+.entry__list li::marker {
+    color: var(--content-line);
+}
+
+/* ---------- Pied de page ---------- */
+.footer {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--content-line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--content-muted);
+}
+
+.footer .pill {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: var(--content-line);
+    color: var(--content-text);
+    box-shadow: none;
+}
+
+.footer .pill:hover {
+    background: rgba(255, 255, 255, 0.26);
+}
+
+/* ---------- Retour en haut ---------- */
+.to-top {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--content-1), var(--content-3));
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba(15, 45, 60, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.to-top.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* ---------- Animation d'apparition ---------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+    body {
+        padding: 96px 12px 56px;
+    }
+
+    .cv {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar,
+    .content {
+        padding: 28px 22px;
+    }
+
+    .theme-toggle__label {
+        display: none;
+    }
+
+    .pill {
+        padding: 11px 14px;
+    }
+}
+
+/* ---------- Accessibilité : mouvement réduit ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------- Impression ---------- */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        padding: 0;
+        background: #fff;
+    }
+
+    .progress,
+    .controls,
+    .to-top,
+    .footer .pill {
+        display: none !important;
+    }
+
+    .cv {
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .content {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .entry,
+    .block {
+        break-inside: avoid;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
